@@ -6,7 +6,7 @@ function setup() {
     console.log(world.toString());
 
 	// Create a new entity
-    testEntity = new Entity(world, 0, "Test", createVector(width/2, 0.1), 1, 100);
+    testEntity = new Entity(world, 0, "Test", createVector(width/2, 0.1), createVector(0, 0), 10, 100);
 	console.log(testEntity.toString());
 
 	// Add the entity to the world

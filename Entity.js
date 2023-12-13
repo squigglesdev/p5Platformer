@@ -1,11 +1,10 @@
 class Entity {
-    constructor (world, id, name, position, mass, maxHealth) {
+    constructor (world, id, name, position, velocity, mass, maxHealth) {
         this.world = world;
         this.id = id;
         this.name = name;
         this.position = position;
-        this.velocity = createVector(0, 10);
-        this.previousVelocity = createVector(0, 0);
+        this.velocity = velocity;
         this.mass = mass;
         this.maxHealth = maxHealth;
         this.health = maxHealth;
@@ -64,16 +63,8 @@ class Entity {
     }
 
     handleGravity(gravity, t) {
-        let v = this.velocity.y;
-        let u = this.previousVelocity.y;
-        let acceleration = (v - u) / t;
-        this.previousVelocity = this.velocity;
-        
-        let force = this.mass * acceleration * gravity;
-        this.velocity.y = force * t;
-        console.log(this.velocity.y);
-
-        this.position.y += this.velocity.y;
+        this.position.y += t * (this.velocity.y + t * gravity / 2);
+        this.velocity.y += gravity * t;
     }
 
     handleCollision(entities) {
@@ -83,13 +74,12 @@ class Entity {
     }
 
     draw() {
-        console.log(this.position.x + " " + this.position.y);
         circle(this.position.x, this.position.y, 50);
     }
 
     tick() {
         this.handleCollision(this.world.getEntities());
-        this.handleGravity(this.world.getGravity(), this.world.getTickRate());
+        this.handleGravity(this.world.getGravity(), 1/this.world.getTickRate());
         this.handleCollision(this.world.getEntities());
         this.draw();
     }
