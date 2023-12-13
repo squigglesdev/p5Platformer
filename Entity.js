@@ -63,8 +63,9 @@ class Entity {
     }
 
     handleGravity(gravity, t) {
-        this.position.y += t * (this.velocity.y + t * gravity / 2);
-        this.velocity.y += gravity * t;
+        let force = this.mass * gravity;
+        this.position.y += t * (this.velocity.y + t * force / 2);
+        this.velocity.y += force * t;
     }
 
     handleCollision(entities) {
