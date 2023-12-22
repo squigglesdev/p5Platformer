@@ -13,7 +13,7 @@ class PlayerEntity extends Entity {
             this.strafingRight = true;
         }
 
-        else if (keyIsDown(32) || keyIsDown(87)) {
+        else if ((keyIsDown(32) || keyIsDown(87)) && this.grounded && !this.jumping) {
             this.jumping = true;
         }
 

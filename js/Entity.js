@@ -94,6 +94,7 @@ class Entity {
         }
         if (this.jumping) {
             totalForce.y -= this.jumpingForce;
+            this.grounded = false;
         }
         if (this.crouching) {
             totalForce.y += this.crouchingForce;
@@ -117,8 +118,8 @@ class Entity {
 
         for (let i = 0; i < this.world.platforms.length; i++) {
             let top = this.world.platforms[i].getBounds().top;
-            let aboveTop = this.position.y - radius < top;
-            if (aboveTop) {
+            let withinTop = this.position.y + radius > top;
+            if (withinTop) {
                 push();
                 stroke(255, 0, 0);
                 line(0, top, width, top)
@@ -128,7 +129,7 @@ class Entity {
                 line(0, top, width, top)
             }
             let left = this.world.platforms[i].getBounds().left;
-            let withinLeft = this.position.x - radius > left;
+            let withinLeft = this.position.x + radius > left;
             if (withinLeft) {
                 push();
                 stroke(255, 0, 0);
@@ -139,8 +140,8 @@ class Entity {
                 line(left, 0, left, height)
             }
             let bottom = this.world.platforms[i].getBounds().bottom;
-            let belowBottom = this.position.y - radius > bottom;
-            if (belowBottom) {
+            let withinBottom = this.position.y - radius < bottom;
+            if (withinBottom) {
                 push();
                 stroke(255, 0, 0);
                 line(0, bottom, width, bottom)
@@ -161,9 +162,17 @@ class Entity {
                 line(right, 0, right, height)
             }
 
+            let withinBounds = withinTop && withinLeft && withinBottom && withinRight;
 
-            if (!aboveTop && withinLeft && belowBottom && withinRight) {
+            if (withinBounds && this.position.y < this.world.platforms[i].getPosition().y) {
                 this.position.y = top - radius;
+                this.grounded = true;
+            } else if (withinBounds && this.position.y > this.world.platforms[i].getPosition().y) {
+                this.position.y = bottom + radius;
+            } else if (withinBounds && this.position.x < this.world.platforms[i].getPosition().x) {
+                this.position.x = left - radius;
+            } else if (withinBounds && this.position.x > this.world.platforms[i].getPosition().x) {
+                this.position.x = right + radius;
             }
         }
     }
