@@ -47,6 +47,14 @@ class World {
         this.entities.push(entity);
     }
 
+    getPlayer() {
+        for (let i = 0; i < this.entities.length; i++) {
+            if (this.entities[i] instanceof PlayerEntity) {
+                return this.entities[i];
+            }
+        }
+    }
+
     removeEntity(entity) {
         for (let i = 0; i < this.entities.length; i++) {
             if (this.entities[i] == entity) {
