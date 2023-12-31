@@ -47,12 +47,28 @@ class World {
         this.entities.push(entity);
     }
 
+    removeEntity(entity) {
+        for (let i = 0; i < this.entities.length; i++) {
+            if (this.entities[i] == entity) {
+                this.entities.splice(i, 1);
+            }
+        }
+    }
+
     addPlatform(platform) {
         this.platforms.push(platform);
     }
 
+    removePlatform(platform) {
+        for (let i = 0; i < this.platforms.length; i++) {
+            if (this.platforms[i] == platform) {
+                this.platforms.splice(i, 1);
+            }
+        }
+    }
+
     draw() {
-        background(30, 100, 0);
+        background(30, 100, 255);
         for (let i = 0; i < this.platforms.length; i++) {
             this.platforms[i].draw();
         }

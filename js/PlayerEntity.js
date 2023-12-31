@@ -24,12 +24,19 @@ class PlayerEntity extends Entity {
             this.strafingRight = false;
         }
     
-        if ((keyIsDown(32) || keyIsDown(87))) {
+        if ((keyIsDown(32) || keyIsDown(87)) && this.jumpCooldown <= 0) {
             this.jumping = true;
-        }
+        } 
     
         if (keyIsDown(83)) {
             this.crouching = true;
+        }
+    }
+
+    handleHealth() {
+        if (this.health <= 0) {
+            location.reload();
+            this.health = this.maxHealth;
         }
     }
     
@@ -37,6 +44,7 @@ class PlayerEntity extends Entity {
     tick() {
         this.handleInput();
         this.handleMovement(this.world.getPlatforms(), this.world.getGravity());
+        this.handleHealth();
     }
 
     toString() {

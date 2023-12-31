@@ -17,6 +17,7 @@ class Entity {
         this.crouching = false;
         this.grounded = false;
         this.hittingHead = false;
+        this.jumpCooldown = 0;
     }
 
     getId() {
@@ -93,21 +94,24 @@ class Entity {
         this.velocity.y = min(100, this.velocity.y + gravity * deltaTime);
         this.airTimer ++;
 
-        if (this.strafingLeft || this.strafingRight || this.jumping) {
+        if (this.strafingLeft || this.strafingRight) {
             if (this.strafingLeft) {
                 this.velocity.x = max(-2, this.velocity.x - this.strafingForce * deltaTime);
             }
             if (this.strafingRight) {
                 this.velocity.x = min(2, this.velocity.x + this.strafingForce * deltaTime);
             }
-            if (this.jumping && this.jumps > 0) {
-                this.jumping = false;   
-                this.velocity.y = -5;
-                this.jumps--;
-                console.log(this.jumps);
-            }
         } else {
             this.velocity.x = this.velocity.x * 0.95;
+        }
+
+        this.jumpCooldown -= deltaTime;
+
+        if (this.jumping && this.jumps > 0) {
+            this.jumping = false;
+            this.jumpCooldown = 0.25;   
+            this.velocity.y = -5;
+            this.jumps -= 1;
         }
 
 
@@ -118,9 +122,20 @@ class Entity {
             if (this.collides(this.getBounds(), platformBounds)) {
                 if (this.velocity.x > 0) {
                     this.position.x = platformBounds.left - 25.1;
+                    this.velocity.y = this.velocity.y * 0.95;
+                    if (this.jumps == 0) {
+                        this.jumps = 1;
+                    }
                 } if (this.velocity.x < 0) {
                     this.position.x = platformBounds.right + 25.1;
+                    // drag
+                    this.velocity.y = this.velocity.y * 0.95;
+                    if (this.jumps == 0) {
+                        this.jumps = 1;
+                    }
                 }
+            } else {
+                this.world.setGravity(9.8);
             }
         });
 
@@ -141,6 +156,17 @@ class Entity {
                 }
             }
         });
+
+        if (this.position.y > height + 500) {
+            this.health = 0;
+            this.position.y = -500;
+        }
+    }
+
+    handleHealth() {
+        if (this.health <= 0) {
+            this.world.removeEntity(this);
+        }
     }
 
     collides(bounds1, bounds2) {
@@ -156,5 +182,6 @@ class Entity {
 
     tick() {
         this.handleMovement(this.world.getPlatforms(), this.world.getGravity());
+        this.handleHealth();
     }
 }
