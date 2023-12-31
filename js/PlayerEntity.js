@@ -14,10 +14,14 @@ class PlayerEntity extends Entity {
         // Check for specific keys being pressed
         if (keyIsDown(65)) {
             this.strafingLeft = true;
+        } else {
+            this.strafingLeft = false;
         }
     
         if (keyIsDown(68)) {
             this.strafingRight = true;
+        } else {
+            this.strafingRight = false;
         }
     
         if ((keyIsDown(32) || keyIsDown(87))) {

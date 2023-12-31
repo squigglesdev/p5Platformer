@@ -93,17 +93,21 @@ class Entity {
         this.velocity.y = min(100, this.velocity.y + gravity * deltaTime);
         this.airTimer ++;
 
-        if (this.strafingLeft) {
-            this.velocity.x = max(-2, this.velocity.x - this.strafingForce * deltaTime);
-        }
-        if (this.strafingRight) {
-            this.velocity.x = min(2, this.velocity.x + this.strafingForce * deltaTime);
-        }
-        if (this.jumping && this.jumps > 0) {
-            this.velocity.y = -5;
-            this.jumps--;
-            this.jumping = false;
-            this.grounded = false;
+        if (this.strafingLeft || this.strafingRight || this.jumping) {
+            if (this.strafingLeft) {
+                this.velocity.x = max(-2, this.velocity.x - this.strafingForce * deltaTime);
+            }
+            if (this.strafingRight) {
+                this.velocity.x = min(2, this.velocity.x + this.strafingForce * deltaTime);
+            }
+            if (this.jumping && this.jumps > 0) {
+                this.jumping = false;   
+                this.velocity.y = -5;
+                this.jumps--;
+                console.log(this.jumps);
+            }
+        } else {
+            this.velocity.x = this.velocity.x * 0.95;
         }
 
 
