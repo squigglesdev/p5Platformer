@@ -23,6 +23,10 @@ class World {
         return this.entities;
     }
 
+    getPlatforms() {
+        return this.platforms;
+    }
+
     setName(name) {
         this.name = name;
     }
@@ -49,11 +53,11 @@ class World {
 
     draw() {
         background(30, 100, 0);
-        for (let i = 0; i < this.entities.length; i++) {
-            this.entities[i].draw();
-        }
         for (let i = 0; i < this.platforms.length; i++) {
             this.platforms[i].draw();
+        }
+        for (let i = 0; i < this.entities.length; i++) {
+            this.entities[i].draw();
         }
     }
 

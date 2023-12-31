@@ -1,4 +1,6 @@
 let world;
+let deltaTime;
+let oldDeltaTime;
 
 function setup() {
 	createCanvas(window.innerWidth, window.innerHeight);
@@ -9,7 +11,7 @@ function setup() {
 	console.log(world.toString());
 
 	// Create a new entity
-	testEntity = new PlayerEntity(world, 0, "Test", createVector(width/2, 0.1), createVector(0, 0), 10, 100, 100, 1000, 100);
+	testEntity = new PlayerEntity(world, 0, "Test", createVector(width/2, 0.1), createVector(0, 0), 10, 10, 100, 5000);
 	console.log(testEntity.toString());
 
 	// Add the entity to the world
@@ -17,10 +19,21 @@ function setup() {
 
 	// Create a new platform
 	testPlatform = new Platform(world, 0, createVector(width/2, height/2), 200, 50, color(255, 0, 255), false);
-	console.log(testPlatform.toString());
+	testPlatform2 = new Platform(world, 1, createVector(width/2 + 200, height/2), 50, 100, color(0, 0, 255), false);
 
 	// Add the platform to the world
 	world.addPlatform(testPlatform);
+	world.addPlatform(testPlatform2);
+
+	// Begin the tick loop
+	world.tick();
+
+	// Set the framerate
+	frameRate(165);
+
+	// Delta time
+	deltaTime = 0;
+	oldDeltaTime = 0;
 }
 
 function windowResized() {
@@ -29,6 +42,9 @@ function windowResized() {
 
 function draw() {
 	world.draw();
+
+	deltaTime = (millis() - oldDeltaTime) / 1000;
+	oldDeltaTime = millis()
 	world.tick();
 }
 

@@ -1,5 +1,5 @@
 class Entity {
-    constructor (world, id, name, position, velocity, mass, maxHealth, strafingForce, jumpingForce, crouchingForce) {
+    constructor (world, id, name, position, velocity, mass, maxHealth, strafingForce, jumpingForce) {
         this.world = world;
         this.id = id;
         this.name = name;
@@ -10,12 +10,13 @@ class Entity {
         this.health = maxHealth;
         this.strafingForce = strafingForce;
         this.jumpingForce = jumpingForce;
-        this.crouchingForce = crouchingForce;
         this.strafingLeft = false;
         this.strafingRight = false;
         this.jumping = false;
+        this.jumps = 2;
         this.crouching = false;
         this.grounded = false;
+        this.hittingHead = false;
     }
 
     getId() {
@@ -74,116 +75,82 @@ class Entity {
         return this.id + " " + this.name + " " + this.position + " " + this.mass + " " + this.maxHealth + " " + this.health;
     }
 
-    handleGravity(gravity, t) {
-        if (!this.grounded) {
-            let force = this.mass * gravity;
-            this.position.y += t * (this.velocity.y + t * force / 2);
-            this.velocity.y += force * t;
-        }
+    getBounds() {
+        return {
+            top: this.position.y - 25,
+            left: this.position.x - 25,
+            bottom: this.position.y + 25,
+            right: this.position.x + 25
+        };
     }
 
-    handleMovement(t) {
+    handleMovement(platforms, gravity) {
 
-        let totalForce = createVector(0, 0);
+        if (isNaN(this.velocity.y) || isNaN(this.velocity.x) || isNaN(deltaTime) || isNaN(this.strafingForce) || isNaN(this.jumpingForce) || isNaN(gravity)) {
+            return;
+        }
+
+        this.velocity.y = min(100, this.velocity.y + gravity * deltaTime);
+        this.airTimer ++;
 
         if (this.strafingLeft) {
-            totalForce.x -= this.strafingForce;
+            this.velocity.x = max(-2, this.velocity.x - this.strafingForce * deltaTime);
         }
         if (this.strafingRight) {
-            totalForce.x += this.strafingForce;
+            this.velocity.x = min(2, this.velocity.x + this.strafingForce * deltaTime);
         }
-        if (this.jumping) {
-            totalForce.y -= this.jumpingForce;
+        if (this.jumping && this.jumps > 0) {
+            this.velocity.y = -5;
+            this.jumps--;
+            this.jumping = false;
             this.grounded = false;
         }
-        if (this.crouching) {
-            totalForce.y += this.crouchingForce;
-        }
 
-        this.position.x += t * (this.velocity.x + t * totalForce.x / 2);
-        console.log(this.strafingForce);
-        this.position.y += t * (this.velocity.y + t * totalForce.y / 2);
 
-        this.velocity.x = this.velocity.x * 0.98 + totalForce.x * t;
-        this.velocity.y += totalForce.y * t;
+        this.position.x += this.velocity.x;
+
+        platforms.forEach(platform => {
+            const platformBounds = platform.getBounds();
+            if (this.collides(this.getBounds(), platformBounds)) {
+                if (this.velocity.x > 0) {
+                    this.position.x = platformBounds.left - 25.1;
+                } if (this.velocity.x < 0) {
+                    this.position.x = platformBounds.right + 25.1;
+                }
+            }
+        });
+
+
+        this.position.y += this.velocity.y;
+
+        platforms.forEach(platform => {
+            const platformBounds = platform.getBounds();
+            if (this.collides(this.getBounds(), platformBounds)) {
+                if (this.velocity.y > 0) {
+                    this.position.y = platformBounds.top - 25.1;
+                    this.velocity.y = 0;
+                    this.jumps = 2;
+                    this.airTimer = 0;
+                } if (this.velocity.y < 0) {
+                    this.position.y = platformBounds.bottom + 25.1;
+                    this.velocity.y = 0;
+                }
+            }
+        });
     }
 
-    handleCollision(entities) {
-        let radius = 25;
-
-        if (this.position.y + 25 > height) {
-            this.position.y = height - 25;
-            this.grounded = true;
-        }
-
-        for (let i = 0; i < this.world.platforms.length; i++) {
-            let top = this.world.platforms[i].getBounds().top;
-            let withinTop = this.position.y + radius > top;
-            if (withinTop) {
-                push();
-                stroke(255, 0, 0);
-                line(0, top, width, top)
-                pop();
-            }
-            else {
-                line(0, top, width, top)
-            }
-            let left = this.world.platforms[i].getBounds().left;
-            let withinLeft = this.position.x + radius > left;
-            if (withinLeft) {
-                push();
-                stroke(255, 0, 0);
-                line(left, 0, left, height)
-                pop();
-            }
-            else {
-                line(left, 0, left, height)
-            }
-            let bottom = this.world.platforms[i].getBounds().bottom;
-            let withinBottom = this.position.y - radius < bottom;
-            if (withinBottom) {
-                push();
-                stroke(255, 0, 0);
-                line(0, bottom, width, bottom)
-                pop();
-            }
-            else {
-                line(0, bottom, width, bottom)
-            }
-            let right = this.world.platforms[i].getBounds().right;
-            let withinRight = this.position.x - radius < right;
-            if (withinRight) {
-                push();
-                stroke(255, 0, 0);
-                line(right, 0, right, height)
-                pop();
-            }
-            else {
-                line(right, 0, right, height)
-            }
-
-            let withinBounds = withinTop && withinLeft && withinBottom && withinRight;
-
-            if (withinBounds && this.position.y < this.world.platforms[i].getPosition().y) {
-                this.position.y = top - radius;
-                this.grounded = true;
-            } else if (withinBounds && this.position.y > this.world.platforms[i].getPosition().y) {
-                this.position.y = bottom + radius;
-            } else if (withinBounds && this.position.x < this.world.platforms[i].getPosition().x) {
-                this.position.x = left - radius;
-            } else if (withinBounds && this.position.x > this.world.platforms[i].getPosition().x) {
-                this.position.x = right + radius;
-            }
-        }
+    collides(bounds1, bounds2) {
+        return bounds1.right >= bounds2.left && bounds1.left <= bounds2.right && bounds1.bottom >= bounds2.top && bounds1.top <= bounds2.bottom;
     }
 
     draw() {
-        circle(this.position.x, this.position.y, 50);
+        push();
+        rectMode(CENTER);
+        rect(this.position.x, this.position.y, 50, 50);
+        pop();
     }
 
     tick() {
-        this.handleCollision(this.world.getEntities());
-        this.handleGravity(this.world.getGravity(), 1/this.world.getTickRate());
-        this.handleCollision(this.world.getEntities());
+        this.handleMovement(this.world.getPlatforms(), this.world.getGravity());
     }
 }
