@@ -1,7 +1,8 @@
 class PlayerEntity extends Entity {
 
-    constructor (world, id, name, position, velocity, mass, maxHealth, strafingForce, jumpingForce) {
-        super(world, id, name, position, velocity, mass, maxHealth, strafingForce, jumpingForce);
+    constructor (world, id, name, position, velocity, mass, width, height, maxHealth, strafingForce, jumpingForce) {
+        super(world, id, name, position, velocity, mass, width, height, maxHealth, strafingForce, jumpingForce);
+        this.flipped = false;
     }
 
     handleInput() {
@@ -31,6 +32,10 @@ class PlayerEntity extends Entity {
         if (keyIsDown(83)) {
             this.crouching = true;
         }
+
+        if (mouseIsPressed) {
+            this.attack();
+        }
     }
 
     handleHealth() {
@@ -38,6 +43,24 @@ class PlayerEntity extends Entity {
             location.reload();
             this.health = this.maxHealth;
         }
+    }
+
+    draw() {
+        push();
+        imageMode(CENTER);
+        if (this.flipped) {
+            push();
+            scale(-1, 1);
+            image(PLAYERSPRITE, -this.position.x, this.position.y, this.width, this.height);
+            pop();
+        } else {
+            image(PLAYERSPRITE, this.position.x, this.position.y, this.width, this.height);
+        }
+        textSize(32);
+        fill(0);
+        textAlign(CENTER, CENTER);
+        text(this.health, this.position.x-2.5, this.position.y + 10);
+        pop();
     }
     
 

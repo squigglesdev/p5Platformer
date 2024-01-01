@@ -1,5 +1,5 @@
 class Entity {
-    constructor (world, id, name, position, velocity, mass, maxHealth, strafingForce, jumpingForce) {
+    constructor (world, id, name, position, velocity, mass, maxHealth, width, height, strafingForce, jumpingForce) {
         this.world = world;
         this.id = id;
         this.name = name;
@@ -8,6 +8,8 @@ class Entity {
         this.mass = mass;
         this.maxHealth = maxHealth;
         this.health = maxHealth;
+        this.width = width;
+        this.height = height;
         this.strafingForce = strafingForce;
         this.jumpingForce = jumpingForce;
         this.strafingLeft = false;
@@ -18,6 +20,8 @@ class Entity {
         this.grounded = false;
         this.hittingHead = false;
         this.jumpCooldown = 0;
+        this.maxSpeed = 2;
+        this.attackCooldown = 0;
     }
 
     getId() {
@@ -78,10 +82,10 @@ class Entity {
 
     getBounds() {
         return {
-            top: this.position.y - 25,
-            left: this.position.x - 25,
-            bottom: this.position.y + 25,
-            right: this.position.x + 25
+            top: this.position.y - this.height / 2,
+            left: this.position.x - this.width / 2,
+            bottom: this.position.y + this.height / 2,
+            right: this.position.x + this.width / 2
         };
     }
 
@@ -96,10 +100,10 @@ class Entity {
 
         if (this.strafingLeft || this.strafingRight) {
             if (this.strafingLeft) {
-                this.velocity.x = max(-2, this.velocity.x - this.strafingForce * deltaTime);
+                this.velocity.x = max(-this.maxSpeed, this.velocity.x - this.strafingForce * deltaTime);
             }
             if (this.strafingRight) {
-                this.velocity.x = min(2, this.velocity.x + this.strafingForce * deltaTime);
+                this.velocity.x = min(this.maxSpeed, this.velocity.x + this.strafingForce * deltaTime);
             }
         } else {
             this.velocity.x = this.velocity.x * 0.95;
@@ -109,7 +113,7 @@ class Entity {
 
         if (this.jumping && this.jumps > 0) {
             this.jumping = false;
-            this.jumpCooldown = 0.25;   
+            this.jumpCooldown = 0.5;   
             this.velocity.y = -5;
             this.jumps -= 1;
         }
@@ -121,14 +125,13 @@ class Entity {
             const platformBounds = platform.getBounds();
             if (this.collides(this.getBounds(), platformBounds)) {
                 if (this.velocity.x > 0) {
-                    this.position.x = platformBounds.left - 25.1;
+                    this.position.x = platformBounds.left - (this.width / 2 + 0.1);
                     this.velocity.y = this.velocity.y * 0.95;
                     if (this.jumps == 0) {
                         this.jumps = 1;
                     }
                 } if (this.velocity.x < 0) {
-                    this.position.x = platformBounds.right + 25.1;
-                    // drag
+                    this.position.x = platformBounds.right + (this.width / 2 + 0.1);
                     this.velocity.y = this.velocity.y * 0.95;
                     if (this.jumps == 0) {
                         this.jumps = 1;
@@ -146,12 +149,13 @@ class Entity {
             const platformBounds = platform.getBounds();
             if (this.collides(this.getBounds(), platformBounds)) {
                 if (this.velocity.y > 0) {
-                    this.position.y = platformBounds.top - 25.1;
+                    this.position.y = platformBounds.top - (this.height / 2 + 0.1);
                     this.velocity.y = 0;
                     this.jumps = 2;
                     this.airTimer = 0;
+                    this.grounded = true;
                 } if (this.velocity.y < 0) {
-                    this.position.y = platformBounds.bottom + 25.1;
+                    this.position.y = platformBounds.bottom + (this.height / 2 + 0.1);
                     this.velocity.y = 0;
                 }
             }
@@ -160,6 +164,24 @@ class Entity {
         if (this.position.y > height + 500) {
             this.health = 0;
             this.position.y = -500;
+        }
+        this.attackCooldown -= deltaTime;
+    }
+
+    attack() {
+        if (this.attackCooldown <= 0) {
+            this.world.getEntities().forEach(entity => {
+                if (entity != this) {
+                    const entityBounds = entity.getBounds();
+                    if (this.collides(this.getBounds(), entityBounds)) {
+                        entity.health -= 1;
+                        entity.velocity.y = -2;
+                        entity.velocity.x = -entity.velocity.x * 3.5;
+                    }
+                }
+            });
+            
+            this.attackCooldown = 0.5;
         }
     }
 
@@ -176,7 +198,7 @@ class Entity {
     draw() {
         push();
         rectMode(CENTER);
-        rect(this.position.x, this.position.y, 50, 50);
+        rect(this.position.x, this.position.y, this.width, this.height);
         pop();
     }
 
