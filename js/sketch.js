@@ -35,7 +35,7 @@ function setup() {
 	// Create a new entity
 	playerEntity = new PlayerEntity(world, 0, "Player", createVector(width/2, 0.1), createVector(0, 0), 10, 10, 150, 150, 100, 5000);
 
-	chaserEnemy = new EnemyEntity(world, 1, "Chaser", createVector((width/2) + 50, 0.1), createVector(0, 0), 10, 10, 50, 50, 100, 5000, [createVector(100, 0), createVector(width - 100, 0)]);
+	chaserEnemy = new EnemyEntity(world, 1, "Chaser", createVector((width/2) + 50, 0.1), createVector(0, 0), 10, 10, 150, 150, 100, 5000, [createVector(100, 0), createVector(width - 100, 0)]);
 	chaserEnemy.setGoalOrder([
 		chaserEnemy.goals.attack,
 		chaserEnemy.goals.chase,
@@ -49,9 +49,11 @@ function setup() {
 
 	// Create a new platform
 	testPlatform = new Platform(world, 0, createVector(width/2, height/2), width, 50, color(255, 0, 255), false);
+	testPlatform2 = new Platform(world, 1, createVector(width + 250, height/2), 50, height, color(255, 0, 255), false);
 
 	// Add the platform to the world
 	world.addPlatform(testPlatform);
+	world.addPlatform(testPlatform2);
 
 	// Begin the tick loop
 	world.tick();
@@ -73,54 +75,7 @@ function windowResized() {
 	resizeCanvas(window.innerWidth, window.innerHeight);
 }
 
-function animation() {
-	if (frame % 165 == 0) {
-		playerImgToggle = !playerImgToggle;
-	}
-
-	if (world.getPlayer().velocity.y > 0.1) {
-		PLAYERSPRITE = fall;
-		if (world.getPlayer().strafingLeft) {
-			world.getPlayer().flipped = false;
-		} else if (world.getPlayer().strafingRight) {
-			world.getPlayer().flipped = true;
-		}
-	} else if (world.getPlayer().velocity.y < 0) {
-		PLAYERSPRITE = jump;
-		if (world.getPlayer().strafingLeft) {
-			world.getPlayer().flipped = false;
-		} else if (world.getPlayer().strafingRight) {
-			world.getPlayer().flipped = true;
-		}
-	} else {
-
-		if (world.getPlayer().velocity.x != 0 && world.getPlayer().velocity.y == 0 && playerImgToggle) {
-			PLAYERSPRITE = walk1;
-			if (world.getPlayer().strafingLeft) {
-				world.getPlayer().flipped = false;
-			} else if (world.getPlayer().strafingRight) {
-				world.getPlayer().flipped = true;
-			}
-		} else if (world.getPlayer().velocity.x != 0 && world.getPlayer().velocity.y == 0 && !playerImgToggle) {
-			PLAYERSPRITE = walk2;
-			if (world.getPlayer().strafingLeft) {
-				world.getPlayer().flipped = false;
-			} else if (world.getPlayer().strafingRight) {
-				world.getPlayer().flipped = true;
-			}
-		} else {
-			if (playerImgToggle) {
-				PLAYERSPRITE = idle1;
-			} else {
-				PLAYERSPRITE = idle2;
-			}
-		}
-	}
-	
-}
-
 function draw() {
-	animation();
 
 	let targetCameraX = playerEntity.position.x - width / 2;
 	let targetCameraY = playerEntity.position.y - height / 2;

@@ -98,7 +98,7 @@ class EnemyEntity extends Entity {
         if (player == null) {
             return false;
         }
-        if (dist(this.position.x, this.position.y, player.position.x, player.position.y) - 50 < 10) {
+        if (dist(this.position.x, this.position.y, player.position.x, player.position.y) < 10) {
             this.strafingLeft = false;
             this.strafingRight = false;
             this.attack();

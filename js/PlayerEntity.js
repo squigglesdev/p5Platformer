@@ -45,6 +45,65 @@ class PlayerEntity extends Entity {
         }
     }
 
+    attack() {
+        if (this.attackCooldown <= 0) {
+            this.attackCooldown = 0.5;
+            if (this.flipped) {
+                const attack = new BulletEntity(this.world, this.world.getEntities().length, "Attack", this.position.copy(), this.velocity.copy().add(1000), 1, 1, 10, 10, 0, 0);
+                this.world.addEntity(attack);
+            } else {
+                const attack = new BulletEntity(this.world, this.world.getEntities().length, "Attack", this.position.copy(), this.velocity.copy().add(-1000), 1, 1, 10, 10, 0, 0);
+                this.world.addEntity(attack);
+            }
+            
+        }
+    }
+
+    animation() {
+        if (frame % 165 == 0) {
+            playerImgToggle = !playerImgToggle;
+        }
+    
+        if (this.velocity.y > 0.1) {
+            PLAYERSPRITE = fall;
+            if (this.strafingLeft) {
+                this.flipped = false;
+            } else if (this.strafingRight) {
+                this.flipped = true;
+            }
+        } else if (this.velocity.y < 0) {
+            PLAYERSPRITE = jump;
+            if (this.strafingLeft) {
+                this.flipped = false;
+            } else if (this.strafingRight) {
+                this.flipped = true;
+            }
+        } else {
+    
+            if (this.velocity.x != 0 && this.velocity.y == 0 && playerImgToggle) {
+                PLAYERSPRITE = walk1;
+                if (this.strafingLeft) {
+                    this.flipped = false;
+                } else if (this.strafingRight) {
+                    this.flipped = true;
+                }
+            } else if (this.velocity.x != 0 && this.velocity.y == 0 && !playerImgToggle) {
+                PLAYERSPRITE = walk2;
+                if (this.strafingLeft) {
+                    this.flipped = false;
+                } else if (this.strafingRight) {
+                    this.flipped = true;
+                }
+            } else {
+                if (playerImgToggle) {
+                    PLAYERSPRITE = idle1;
+                } else {
+                    PLAYERSPRITE = idle2;
+                }
+            }
+        }
+    }
+
     draw() {
         push();
         imageMode(CENTER);
@@ -56,10 +115,6 @@ class PlayerEntity extends Entity {
         } else {
             image(PLAYERSPRITE, this.position.x, this.position.y, this.width, this.height);
         }
-        textSize(32);
-        fill(0);
-        textAlign(CENTER, CENTER);
-        text(this.health, this.position.x-2.5, this.position.y + 10);
         pop();
     }
     
@@ -68,6 +123,7 @@ class PlayerEntity extends Entity {
         this.handleInput();
         this.handleMovement(this.world.getPlatforms(), this.world.getGravity());
         this.handleHealth();
+        this.animation();
     }
 
     toString() {
