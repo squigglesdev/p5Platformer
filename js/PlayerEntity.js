@@ -49,10 +49,10 @@ class PlayerEntity extends Entity {
         if (this.attackCooldown <= 0) {
             this.attackCooldown = 0.5;
             if (this.flipped) {
-                const attack = new BulletEntity(this.world, this.world.getEntities().length, "Attack", this.position.copy(), this.velocity.copy().add(1000), 1, 1, 10, 10, 0, 0);
+                const attack = new BulletEntity(this.world, this.world.getEntities().length, "Attack", this.position.copy().add(80), this.velocity.copy().add(1000), 1, 1, 10, 10, 0, 0);
                 this.world.addEntity(attack);
             } else {
-                const attack = new BulletEntity(this.world, this.world.getEntities().length, "Attack", this.position.copy(), this.velocity.copy().add(-1000), 1, 1, 10, 10, 0, 0);
+                const attack = new BulletEntity(this.world, this.world.getEntities().length, "Attack", this.position.copy().add(-80), this.velocity.copy().add(-1000), 1, 1, 10, 10, 0, 0);
                 this.world.addEntity(attack);
             }
             

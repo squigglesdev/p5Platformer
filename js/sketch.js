@@ -35,16 +35,23 @@ function setup() {
 	// Create a new entity
 	playerEntity = new PlayerEntity(world, 0, "Player", createVector(width/2, 0.1), createVector(0, 0), 10, 10, 150, 150, 100, 5000);
 
-	chaserEnemy = new EnemyEntity(world, 1, "Chaser", createVector((width/2) + 50, 0.1), createVector(0, 0), 10, 10, 150, 150, 100, 5000, [createVector(100, 0), createVector(width - 100, 0)]);
+	chaserEnemy = new EnemyEntity(world, 1, "Chaser", createVector((width/2) + 500, 0.1), createVector(0, 0), 10, 10, 150, 150, 100, 5000, [createVector(100, 0), createVector(width - 100, 0)]);
 	chaserEnemy.setGoalOrder([
 		chaserEnemy.goals.attack,
 		chaserEnemy.goals.chase,
 		chaserEnemy.goals.patrol
 	]);
 
+	chaserEnemy2 = new EnemyEntity(world, 2, "Chaser", createVector((width/2) - 500, 0.1), createVector(0, 0), 10, 10, 150, 150, 100, 5000, [createVector(width - 100, 0), createVector(100, 0)]);
+	chaserEnemy2.setGoalOrder([
+		chaserEnemy2.goals.attack,
+		chaserEnemy2.goals.chase,
+		chaserEnemy2.goals.patrol
+	]);
 
 	// Add the entity to the world
 	world.addEntity(chaserEnemy);
+	world.addEntity(chaserEnemy2);
 	world.addEntity(playerEntity);
 
 	// Create a new platform
@@ -82,10 +89,19 @@ function draw() {
 	cameraX = lerp(cameraX, targetCameraX, deltaTime * 10);
 	cameraY = lerp(cameraY, targetCameraY, deltaTime * 10);
 
+	strokeWeight(2);
+	stroke(31)
 
 	translate(-cameraX, -cameraY);
 	world.draw();
 	translate(cameraX, cameraY);
+
+	push();
+	fill(100, 100, 100, 175);
+	rect(50, 50, 200, 25);
+	fill(255, 0, 0);
+	rect(50, 50, world.getPlayer().health * 20, 25);
+	pop();
 
 	deltaTime = (millis() - oldDeltaTime) / 1000;
 	oldDeltaTime = millis()

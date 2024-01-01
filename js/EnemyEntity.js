@@ -70,8 +70,13 @@ class EnemyEntity extends Entity {
         if (player == null) {
             return false;
         }
+        const distanceToPlayer = player.getPosition().x - this.position.x;
         const direction = player.getPosition().copy().sub(this.position).normalize();
 
+        if (Math.abs(distanceToPlayer) > 750) {
+            console.log("cant see player");
+            return false;
+        }
         if (this.strafingLeft && direction.x > 0) {
             return false;
         }

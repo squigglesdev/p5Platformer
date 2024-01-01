@@ -7,20 +7,27 @@ class BulletEntity extends Entity {
         push();
         fill(0, 255, 0);
         rectMode(CENTER);
-        rect(this.position.x, this.position.y, this.width, this.height);
+        ellipse(this.position.x, this.position.y, this.width, this.height);
         pop();
     }
 
     tick() {
         this.position.x += this.velocity.x * deltaTime;
+        
+        this.world.getPlatforms().forEach(platform => {
+            if (this.collides(this.getBounds(), platform.getBounds())) {
+                this.velocity.x = - this.velocity.x;
+                console.log("collided");
+            }
+        });
         this.position.y += this.velocity.y * deltaTime;
-        console.log(this.velocity.x);
+
         this.attack();
     }
 
     attack() {
         this.world.getEntities().forEach(entity => {
-            if (entity != this && entity != this.world.getPlayer()) {
+            if (entity != this) {
                 const entityBounds = entity.getBounds();
                 if (this.collides(this.getBounds(), entityBounds)) {
                     entity.health -= 1;
