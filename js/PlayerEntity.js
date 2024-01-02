@@ -39,10 +39,20 @@ class PlayerEntity extends Entity {
     }
 
     handleHealth() {
+        if (this.health > this.maxHealth) {
+            this.health = this.maxHealth;
+        }
+
+        
         if (this.health <= 0) {
+            this.world.getCamera().shake(50, 0.1);
             location.reload();
             this.health = this.maxHealth;
         }
+        if (this.health < this.oldHealth) {
+            this.world.getCamera().shake(10, 0.1);
+        }
+        this.oldHealth = this.health;
     }
 
 

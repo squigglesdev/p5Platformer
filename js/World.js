@@ -28,6 +28,10 @@ class World {
         return this.platforms;
     }
 
+    getCamera() {
+        return this.camera;
+    }
+
     setName(name) {
         this.name = name;
     }

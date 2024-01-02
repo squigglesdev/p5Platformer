@@ -69,7 +69,7 @@ function preload() {
 	enemyOldFall = loadImage("assets/enemyWalk1.png");
 	enemyWallFall = loadImage("assets/enemyWalk1.png");
 
-	bg = loadImage("assets/bg.webp", function(img) {
+	bg = loadImage("assets/bg.png", function(img) {
         bgWidth = img.width;
         bgHeight = img.height;
     });
