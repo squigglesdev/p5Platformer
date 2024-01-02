@@ -120,7 +120,6 @@ class Entity {
         }
 
         this.wallTimer += deltaTime;
-        console.log(this.wallTimer);
 
         this.position.x += this.velocity.x;
 
@@ -131,7 +130,6 @@ class Entity {
                     this.position.x = platformBounds.left - (this.width / 4 + 0.01);
                     this.velocity.y = this.velocity.y * 0.95;
                     fall = wallFall;
-                    console.log("wall fall");
                     if (this.jumps == 0) {
                         this.jumps = 1;
                     }
@@ -139,7 +137,6 @@ class Entity {
                     this.position.x = platformBounds.right + (this.width / 4 + 0.01);
                     this.velocity.y = this.velocity.y * 0.95;
                     fall = wallFall;
-                    console.log("wall fall");
                     if (this.jumps == 0) {
                         this.jumps = 1;
                     }
@@ -168,9 +165,14 @@ class Entity {
             }
         });
 
-        if (this.position.y > height + 500) {
+        if (this.position.y > 1000) {
+            this.jumps = 0;
+            this.maxSpeed = 0.5
+            this.velocity.y = this.velocity.y * 0.90;
+        }
+        if (this.position.y > 1100) {
             this.health = 0;
-            this.position.y = -500;
+            this.position.y = -1100;
         }
         this.attackCooldown -= deltaTime;
     }

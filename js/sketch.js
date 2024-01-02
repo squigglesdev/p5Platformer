@@ -84,9 +84,9 @@ function setup() {
 	world = new World("World", 9.8, 20);
 
 	// Create a new entity
-	playerEntity = new PlayerEntity(world, 0, "Player", createVector(width/2, 0.1), createVector(0, 0), 10, 10, 150, 150, 100, 5000);
+	playerEntity = new PlayerEntity(world, 0, "Player", createVector(1000, -1000), createVector(0, 0), 10, 10, 150, 150, 100, 5000);
 
-	chaserEnemy = new EnemyEntity(world, 1, "Chaser", createVector((width/2) + 500, 0.1), createVector(0, 0), 10, 10, 150, 150, 100, 5000, [createVector(100, 0), createVector(width - 100, 0)]);
+	/*chaserEnemy = new EnemyEntity(world, 1, "Chaser", createVector((width/2) + 500, 0.1), createVector(0, 0), 10, 10, 150, 150, 100, 5000, [createVector(100, 0), createVector(width - 100, 0)]);
 	chaserEnemy.setGoalOrder([
 		chaserEnemy.goals.attack,
 		chaserEnemy.goals.chase,
@@ -98,26 +98,53 @@ function setup() {
 		chaserEnemy2.goals.attack,
 		chaserEnemy2.goals.chase,
 		chaserEnemy2.goals.patrol
-	]);
+	]);*/
 
 	// Add the entity to the world
-	world.addEntity(chaserEnemy);
-	world.addEntity(chaserEnemy2);
-	world.addEntity(playerEntity);
+	//world.addEntity(chaserEnemy);
+	//world.addEntity(chaserEnemy2);
+	
 
 	// Create a new platform
-	testPlatform = new Platform(world, 0, createVector(width/2, height/2), width, 50, color(255, 0, 255), false);
-	testPlatform2 = new Platform(world, 1, createVector(width + 250, height/2), 50, height, color(255, 0, 255), false);
-	testPlatform3 = new Platform(world, 0, createVector(width + 550, height/3), 200, 50, color(255, 0, 255), false);
-	testPlatform4 = new Platform(world, 0, createVector(width + 1000, height/3 * 2), 200, 50, color(255, 0, 255), false);
-	testPlatform5 = new Platform(world, 0, createVector(width + 1500, height/2), 200, 50, color(255, 0, 255), false);
+	platform = new Platform(world, 0, createVector(1000, 1000), 1500, 50, color(255, 0, 255), false);
+	platform2 = new Platform(world, 1, createVector(2050, 1000), 200, 50, color(255, 0, 255), false);
+	platform3 = new Platform(world, 0, createVector(2600, 750), 200, 50, color(255, 0, 255), false);
+	platform4 = new Platform(world, 0, createVector(3000, 1000), 50, 1750, color(255, 0, 255), false);
+	platform5 = new Platform(world, 0, createVector(3400, 250), 200, 50, color(255, 0, 255), false);
+	platform6 = new Platform(world, 0, createVector(4050, 1000), 1500, 50, color(255, 0, 255), false);
+	dummyEntity = new EnemyEntity(world, 1, "Dummy", createVector(4050, 1075), createVector(0, 0), 10, 2, 150, 150, 100, 5000, [createVector(4050, 1075)]);
+	dummyEntity.setGoalOrder([
+		dummyEntity.goals.dummyGoal
+	]);
+	platform7 = new Platform(world, 0, createVector(5100, 1000), 200, 50, color(255, 0, 255), false);
+	platform8 = new Platform(world, 0, createVector(5500, 1000), 200, 50, color(255, 0, 255), false);
+	platform9 = new Platform(world, 0, createVector(6550, 1000), 1500, 50, color(255, 0, 255), false);
+	weakEnemy = new EnemyEntity(world, 2, "Weak", createVector(6550, 500), createVector(0, 0), 10, 4, 150, 150, 100, 5000, [createVector(6550, 1075), createVector(7200, 1075)]);
+	weakEnemy.sightRange = 250;
+	weakEnemy.setGoalOrder([
+		weakEnemy.goals.attack,
+		weakEnemy.goals.chase,
+		weakEnemy.goals.patrol
+	]);
+	platform10 = new Platform(world, 0, createVector(7600, 1000), 50, 1750, color(255, 0, 255), false);
+
 
 	// Add the platform to the world
-	world.addPlatform(testPlatform);
-	world.addPlatform(testPlatform2);
-	world.addPlatform(testPlatform3);
-	world.addPlatform(testPlatform4);
-	world.addPlatform(testPlatform5);
+	world.addPlatform(platform);
+	world.addPlatform(platform2);
+	world.addPlatform(platform3);
+	world.addPlatform(platform4);
+	world.addPlatform(platform5);
+	world.addPlatform(platform6);
+	world.addEntity(dummyEntity);
+	world.addPlatform(platform7);
+	world.addPlatform(platform8);
+	world.addPlatform(platform9);
+	world.addEntity(weakEnemy);
+	world.addPlatform(platform10);
+
+
+	world.addEntity(playerEntity);
 
 	// Begin the tick loop
 	world.tick();
@@ -140,7 +167,6 @@ function windowResized() {
 }
 
 function draw() {
-
 	let targetCameraX = playerEntity.position.x - width / 2;
 	let targetCameraY = playerEntity.position.y - height / 2;
 	cameraX = lerp(cameraX, targetCameraX, deltaTime * 10);
@@ -154,7 +180,7 @@ function draw() {
     }
 
 	strokeWeight(2);
-	stroke(31)
+	stroke(31);
 
 	translate(-cameraX, -cameraY);
 	world.draw();

@@ -75,6 +75,13 @@ class World {
         }
     }
 
+    drawLava() {
+        push();
+        fill("#fc8803");
+        rect(-10000, 1000, 20000, 10000);
+        pop();
+    }
+
     draw() {
         for (let i = 0; i < this.platforms.length; i++) {
             this.platforms[i].draw();
@@ -82,6 +89,7 @@ class World {
         for (let i = 0; i < this.entities.length; i++) {
             this.entities[i].draw();
         }
+
     }
 
     tick() {

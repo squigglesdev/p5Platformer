@@ -7,13 +7,15 @@ class EnemyEntity extends Entity {
         this.goals = {
             patrol: this.patrolGoal.bind(this),
             chase: this.chaseGoal.bind(this),
-            attack: this.attackGoal.bind(this)
+            attack: this.attackGoal.bind(this),
+            dummyGoal: this.dummyGoal.bind(this)
         }
         this.flipped = false;
         this.goalOrder = [];
         this.SPRITE;
         this.enemyFall = enemyFall;
-        this.enemyJump = enemyJump
+        this.enemyJump = enemyJump;
+        this.sightRange = 750;
     }
 
     draw() {
@@ -33,7 +35,7 @@ class EnemyEntity extends Entity {
         fill(100, 100, 100);
         rect(this.position.x - this.width/6, this.position.y - 100, 50, 10);
         fill(255, 0, 0);
-        rect(this.position.x - this.width/6, this.position.y - 100, this.health * 5, 10);
+        rect(this.position.x - this.width/6, this.position.y - 100, this.health / this.maxHealth * 50, 10);
         pop();
     }
 
@@ -87,7 +89,7 @@ class EnemyEntity extends Entity {
         const distanceToPlayer = player.getPosition().x - this.position.x;
         const direction = player.getPosition().copy().sub(this.position).normalize();
 
-        if (Math.abs(distanceToPlayer) > 750) {
+        if (Math.abs(distanceToPlayer) > this.sightRange) {
             return false;
         }
         if (this.strafingLeft && direction.x > 0) {
