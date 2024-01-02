@@ -45,6 +45,7 @@ class PlayerEntity extends Entity {
         }
     }
 
+
     attack() {
         if (this.attackCooldown <= 0) {
             this.attackCooldown = 0.5;
@@ -60,8 +61,16 @@ class PlayerEntity extends Entity {
     }
 
     animation() {
-        if (frame % 165 == 0) {
-            playerImgToggle = !playerImgToggle;
+        if (frame % 25 == 0) {
+            animationFrame += 1;
+        }
+        if (animationFrame > 4) {
+            animationFrame = 1;
+        }
+
+        if (this.wallTimer > 0.05) {
+            fall = oldFall;
+            jump = oldJump;
         }
     
         if (this.velocity.y > 0.1) {
@@ -79,23 +88,36 @@ class PlayerEntity extends Entity {
                 this.flipped = true;
             }
         } else {
-    
-            if (this.velocity.x != 0 && this.velocity.y == 0 && playerImgToggle) {
+            if ((this.strafingLeft || this.strafingRight) && animationFrame == 1) {
                 PLAYERSPRITE = walk1;
                 if (this.strafingLeft) {
                     this.flipped = false;
                 } else if (this.strafingRight) {
                     this.flipped = true;
                 }
-            } else if (this.velocity.x != 0 && this.velocity.y == 0 && !playerImgToggle) {
+            } else if ((this.strafingLeft || this.strafingRight) && animationFrame == 2) {
                 PLAYERSPRITE = walk2;
                 if (this.strafingLeft) {
                     this.flipped = false;
                 } else if (this.strafingRight) {
                     this.flipped = true;
                 }
+            } else if ((this.strafingLeft || this.strafingRight) && animationFrame == 3) {
+                PLAYERSPRITE = walk3;
+                if (this.strafingLeft) {
+                    this.flipped = false;
+                } else if (this.strafingRight) {
+                    this.flipped = true;
+                }
+            } else if ((this.strafingLeft || this.strafingRight) && animationFrame == 4) {
+                PLAYERSPRITE = walk4;
+                if (this.strafingLeft) {
+                    this.flipped = false;
+                } else if (this.strafingRight) {
+                    this.flipped = true;
+                }
             } else {
-                if (playerImgToggle) {
+                if (animationFrame % 4 == 0) {
                     PLAYERSPRITE = idle1;
                 } else {
                     PLAYERSPRITE = idle2;

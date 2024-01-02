@@ -22,6 +22,7 @@ class Entity {
         this.jumpCooldown = 0;
         this.maxSpeed = 2;
         this.attackCooldown = 0;
+        this.wallTimer = 0;
     }
 
     getId() {
@@ -83,9 +84,9 @@ class Entity {
     getBounds() {
         return {
             top: this.position.y - this.height / 2,
-            left: this.position.x - this.width / 2,
+            left: this.position.x - this.width / 4,
             bottom: this.position.y + this.height / 2,
-            right: this.position.x + this.width / 2
+            right: this.position.x + this.width / 4
         };
     }
 
@@ -118,6 +119,8 @@ class Entity {
             this.jumps -= 1;
         }
 
+        this.wallTimer += deltaTime;
+        console.log(this.wallTimer);
 
         this.position.x += this.velocity.x;
 
@@ -125,20 +128,23 @@ class Entity {
             const platformBounds = platform.getBounds();
             if (this.collides(this.getBounds(), platformBounds)) {
                 if (this.velocity.x > 0) {
-                    this.position.x = platformBounds.left - (this.width / 2 + 0.1);
+                    this.position.x = platformBounds.left - (this.width / 4 + 0.01);
                     this.velocity.y = this.velocity.y * 0.95;
+                    fall = wallFall;
+                    console.log("wall fall");
                     if (this.jumps == 0) {
                         this.jumps = 1;
                     }
                 } if (this.velocity.x < 0) {
-                    this.position.x = platformBounds.right + (this.width / 2 + 0.1);
+                    this.position.x = platformBounds.right + (this.width / 4 + 0.01);
                     this.velocity.y = this.velocity.y * 0.95;
+                    fall = wallFall;
+                    console.log("wall fall");
                     if (this.jumps == 0) {
                         this.jumps = 1;
                     }
                 }
-            } else {
-                this.world.setGravity(9.8);
+                this.wallTimer = 0;
             }
         });
 
@@ -157,6 +163,7 @@ class Entity {
                 } if (this.velocity.y < 0) {
                     this.position.y = platformBounds.bottom + (this.height / 2 + 0.1);
                     this.velocity.y = 0;
+
                 }
             }
         });

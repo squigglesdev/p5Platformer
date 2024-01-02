@@ -76,7 +76,6 @@ class World {
     }
 
     draw() {
-        background(30, 100, 255);
         for (let i = 0; i < this.platforms.length; i++) {
             this.platforms[i].draw();
         }

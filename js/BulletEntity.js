@@ -5,7 +5,7 @@ class BulletEntity extends Entity {
 
     draw() {
         push();
-        fill(0, 255, 0);
+        fill(255);
         rectMode(CENTER);
         ellipse(this.position.x, this.position.y, this.width, this.height);
         pop();
@@ -17,7 +17,6 @@ class BulletEntity extends Entity {
         this.world.getPlatforms().forEach(platform => {
             if (this.collides(this.getBounds(), platform.getBounds())) {
                 this.velocity.x = - this.velocity.x;
-                console.log("collided");
             }
         });
         this.position.y += this.velocity.y * deltaTime;

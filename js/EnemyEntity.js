@@ -9,18 +9,31 @@ class EnemyEntity extends Entity {
             chase: this.chaseGoal.bind(this),
             attack: this.attackGoal.bind(this)
         }
+        this.flipped = false;
         this.goalOrder = [];
+        this.SPRITE;
+        this.enemyFall = enemyFall;
+        this.enemyJump = enemyJump
     }
 
     draw() {
         push();
         fill(255, 0, 0);
-        rectMode(CENTER);
-        rect(this.position.x, this.position.y, this.width, this.height);
-        textSize(32);
-        fill(0);
-        textAlign(CENTER, CENTER);
-        text(this.health, this.position.x, this.position.y);
+        imageMode(CENTER);
+        if (this.flipped) {
+            push();
+            scale(-1, 1);
+            image(this.SPRITE, -this.position.x, this.position.y, this.width, this.height);
+            pop();
+        } else {
+            image(this.SPRITE, this.position.x, this.position.y, this.width, this.height);
+        }
+        
+
+        fill(100, 100, 100);
+        rect(this.position.x - this.width/6, this.position.y - 100, 50, 10);
+        fill(255, 0, 0);
+        rect(this.position.x - this.width/6, this.position.y - 100, this.health * 5, 10);
         pop();
     }
 
@@ -28,6 +41,7 @@ class EnemyEntity extends Entity {
         this.runGoals(this.goalOrder);
         this.handleMovement(this.world.getPlatforms(), this.world.getGravity());
         this.handleHealth();
+        this.animation();
     }
 
     setGoalOrder(goalList) {
@@ -74,7 +88,6 @@ class EnemyEntity extends Entity {
         const direction = player.getPosition().copy().sub(this.position).normalize();
 
         if (Math.abs(distanceToPlayer) > 750) {
-            console.log("cant see player");
             return false;
         }
         if (this.strafingLeft && direction.x > 0) {
@@ -103,14 +116,77 @@ class EnemyEntity extends Entity {
         if (player == null) {
             return false;
         }
-        if (dist(this.position.x, this.position.y, player.position.x, player.position.y) < 10) {
+        if (dist(this.position.x, this.position.y, player.position.x, player.position.y) < 70) {
             this.strafingLeft = false;
             this.strafingRight = false;
             this.attack();
-            console.log("attacking");
             return true;
         } else {
             return false;
+        }
+    }
+
+
+    animation() {
+
+        if (this.wallTimer > 0.05) {
+            this.enemyFall = enemyOldFall;
+            this.enemyJump = enemyOldJump;
+        }
+    
+        if (this.velocity.y > 0.1) {
+            this.SPRITE = this.enemyFall;
+            if (this.strafingLeft) {
+                this.flipped = false;
+            } else if (this.strafingRight) {
+                this.flipped = true;
+            }
+        } else if (this.velocity.y < 0) {
+            this.SPRITE = this.enemyJump;
+            if (this.strafingLeft) {
+                this.flipped = false;
+            } else if (this.strafingRight) {
+                this.flipped = true;
+            } 
+            if (this.enemyFall == enemyWallFall) {
+                this.SPRITE = enemyWallJump;
+            }
+        } else {
+            if ((this.strafingLeft || this.strafingRight) && animationFrame == 1) {
+                this.SPRITE = enemyWalk1;
+                if (this.strafingLeft) {
+                    this.flipped = false;
+                } else if (this.strafingRight) {
+                    this.flipped = true;
+                }
+            } else if ((this.strafingLeft || this.strafingRight) && animationFrame == 2) {
+                this.SPRITE = enemyWalk2;
+                if (this.strafingLeft) {
+                    this.flipped = false;
+                } else if (this.strafingRight) {
+                    this.flipped = true;
+                }
+            } else if ((this.strafingLeft || this.strafingRight) && animationFrame == 3) {
+                this.SPRITE = enemyWalk3;
+                if (this.strafingLeft) {
+                    this.flipped = false;
+                } else if (this.strafingRight) {
+                    this.flipped = true;
+                }
+            } else if ((this.strafingLeft || this.strafingRight) && animationFrame == 4) {
+                this.SPRITE = enemyWalk4;
+                if (this.strafingLeft) {
+                    this.flipped = false;
+                } else if (this.strafingRight) {
+                    this.flipped = true;
+                }
+            } else {
+                if (animationFrame % 4 == 0) {
+                    this.SPRITE = enemyIdle1;
+                } else {
+                    this.SPRITE = enemyIdle2;
+                }
+            }
         }
     }
     
