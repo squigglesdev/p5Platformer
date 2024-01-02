@@ -52,29 +52,28 @@ function preload() {
 	wallJump = loadImage("assets/wallJump.png");
 	fall = loadImage("assets/fall.png");
 
-	enemyIdle1 = loadImage("assets/idle1.png");
-	enemyIdle2 = loadImage("assets/idle2.png");
-	enemyWalk1 = loadImage("assets/walk1.png");
-	enemyWalk2 = loadImage("assets/walk2.png");
-	enemyWalk3 = loadImage("assets/walk3.png");
-	enemyWalk4 = loadImage("assets/walk4.png");
-	enemyJump = loadImage("assets/jump.png");
-	enemyOldJump = loadImage("assets/jump.png");
-	enemyWallJump = loadImage("assets/wallJump.png");
-	enemyFall = loadImage("assets/fall.png");
+	enemyIdle1 = loadImage("assets/enemyWalk1.png");
+	enemyIdle2 = loadImage("assets/enemyWalk1.png");
+	enemyWalk1 = loadImage("assets/enemyWalk1.png");
+	enemyWalk2 = loadImage("assets/enemyWalk1.png");
+	enemyWalk3 = loadImage("assets/enemyWalk2.png");
+	enemyWalk4 = loadImage("assets/enemyWalk2.png");
+	enemyJump = loadImage("assets/enemyWalk1.png");
+	enemyOldJump = loadImage("assets/enemyWalk1.png");
+	enemyWallJump = loadImage("assets/enemyWalk1.png");
+	enemyFall = loadImage("assets/enemyWalk1.png");
 
 	oldFall = loadImage("assets/fall.png");
 	wallFall = loadImage("assets/wallFall.png");
 
-	enemyOldFall = loadImage("assets/fall.png");
-	enemyWallFall = loadImage("assets/wallFall.png");
+	enemyOldFall = loadImage("assets/enemyWalk1.png");
+	enemyWallFall = loadImage("assets/enemyWalk1.png");
 
 	bg = loadImage("assets/bg.png", function(img) {
         bgWidth = img.width;
         bgHeight = img.height;
     });
 
-	bgm = loadSound("assets/bgm.mp3");
 }
 
 function setup() {
@@ -134,8 +133,6 @@ function setup() {
 	// Camera
 	cameraX = playerEntity.position.x - width / 2;
 	cameraY = playerEntity.position.y - height / 2;
-
-	bgm.loop();
 }
 
 function windowResized() {

@@ -125,7 +125,9 @@ class EnemyEntity extends Entity {
             return false;
         }
     }
-
+    dummyGoal() {
+        return true;
+    }
 
     animation() {
 
