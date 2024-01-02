@@ -69,7 +69,7 @@ function preload() {
 	enemyOldFall = loadImage("assets/enemyWalk1.png");
 	enemyWallFall = loadImage("assets/enemyWalk1.png");
 
-	bg = loadImage("assets/bg.png", function(img) {
+	bg = loadImage("assets/bg.webp", function(img) {
         bgWidth = img.width;
         bgHeight = img.height;
     });
@@ -112,7 +112,7 @@ function setup() {
 	platform4 = new Platform(world, 0, createVector(3000, 1000), 50, 1750, color(255, 0, 255), false);
 	platform5 = new Platform(world, 0, createVector(3400, 250), 200, 50, color(255, 0, 255), false);
 	platform6 = new Platform(world, 0, createVector(4050, 1000), 1500, 50, color(255, 0, 255), false);
-	dummyEntity = new EnemyEntity(world, 1, "Dummy", createVector(4050, 1075), createVector(0, 0), 10, 2, 150, 150, 100, 5000, [createVector(4050, 1075)]);
+	dummyEntity = new EnemyEntity(world, 1, "Dummy", createVector(4425, 1075), createVector(0, 0), 10, 2, 150, 150, 100, 5000, [createVector(4050, 1075)]);
 	dummyEntity.setGoalOrder([
 		dummyEntity.goals.dummyGoal
 	]);
@@ -167,24 +167,9 @@ function windowResized() {
 }
 
 function draw() {
-	let targetCameraX = playerEntity.position.x - width / 2;
-	let targetCameraY = playerEntity.position.y - height / 2;
-	cameraX = lerp(cameraX, targetCameraX, deltaTime * 10);
-	cameraY = lerp(cameraY, targetCameraY, deltaTime * 10);
+	
 
-	background(0);	
-	for (let x = -bgWidth; x < width * 2; x += bgWidth) {
-        for (let y = -bgHeight; y < height; y += bgHeight) {
-            image(bg, x - cameraX * 0.5, y - cameraY * 0.5, bgWidth, bgHeight);
-        }
-    }
-
-	strokeWeight(2);
-	stroke(31);
-
-	translate(-cameraX, -cameraY);
 	world.draw();
-	translate(cameraX, cameraY);
 
 	push();
 	fill(100, 100, 100, 175);

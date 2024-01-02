@@ -5,6 +5,7 @@ class World {
         this.tickRate = tickRate;
         this.entities = [];
         this.platforms = [];
+        this.camera = new Camera();
     }
 
     getName() {
@@ -82,14 +83,30 @@ class World {
         pop();
     }
 
+    drawBackground() {
+        background(0);	
+        for (let x = -bgWidth; x < width * 2; x += bgWidth - 1) {
+            for (let y = -bgHeight; y < height; y += bgHeight - 1) {
+                image(bg, x - this.camera.x * 0.5, y - this.camera.y * 0.5, bgWidth, bgHeight);
+            }
+        }
+
+        strokeWeight(2);
+        stroke(31);
+    }
+
     draw() {
+        this.drawBackground();
+        this.camera.startFollow(this.getPlayer().getPosition());
+        
         for (let i = 0; i < this.platforms.length; i++) {
             this.platforms[i].draw();
         }
         for (let i = 0; i < this.entities.length; i++) {
             this.entities[i].draw();
         }
-
+        this.drawLava();
+        this.camera.endFollow();
     }
 
     tick() {
