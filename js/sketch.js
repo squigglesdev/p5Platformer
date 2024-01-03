@@ -3,7 +3,7 @@ let deltaTime;
 let oldDeltaTime;
 let cameraX;
 let cameraY;
-let frame;
+let time;
 
 
 let PLAYERSPRITE;
@@ -112,7 +112,7 @@ function setup() {
 	platform4 = new Platform(world, 0, createVector(3000, 1000), 50, 1750, color(255, 0, 255), false);
 	platform5 = new Platform(world, 0, createVector(3400, 250), 200, 50, color(255, 0, 255), false);
 	platform6 = new Platform(world, 0, createVector(4050, 1000), 1500, 50, color(255, 0, 255), false);
-	dummyEntity = new EnemyEntity(world, 1, "Dummy", createVector(4425, 1075), createVector(0, 0), 10, 2, 150, 150, 100, 5000, [createVector(4050, 1075)]);
+	dummyEntity = new EnemyEntity(world, 1, "Dummy", createVector(4425, 1075), createVector(0, 0), 10, 4, 150, 150, 100, 5000, [createVector(4050, 1075)]);
 	dummyEntity.setGoalOrder([
 		dummyEntity.goals.dummyGoal
 	]);
@@ -153,7 +153,7 @@ function setup() {
 	frameRate(165);
 
 	// Delta time
-	frame = 0;
+	time = 0;
 	deltaTime = 0;
 	oldDeltaTime = 0;
 
@@ -181,7 +181,7 @@ function draw() {
 	deltaTime = (millis() - oldDeltaTime) / 1000;
 	oldDeltaTime = millis()
 	world.tick();
-	frame++;
+	time += deltaTime;
 }
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));

@@ -89,7 +89,7 @@ class World {
 
     drawBackground() {
         background(0);	
-        for (let x = -bgWidth; x < width * 2; x += bgWidth - 1) {
+        for (let x = -bgWidth; x < width * 4; x += bgWidth - 1) {
             for (let y = -bgHeight; y < height; y += bgHeight - 1) {
                 image(bg, x - this.camera.x * 0.5, y - this.camera.y * 0.5, bgWidth, bgHeight);
             }

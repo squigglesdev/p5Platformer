@@ -71,8 +71,10 @@ class PlayerEntity extends Entity {
     }
 
     animation() {
-        if (frame % 25 == 0) {
+        // increment animationFrame every 0.1 seconds
+        if (time > 0.15) {
             animationFrame += 1;
+            time = 0;
         }
         if (animationFrame > 4) {
             animationFrame = 1;

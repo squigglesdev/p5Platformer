@@ -107,7 +107,7 @@ class Entity {
                 this.velocity.x = min(this.maxSpeed, this.velocity.x + this.strafingForce * deltaTime);
             }
         } else {
-            this.velocity.x = this.velocity.x * 0.95;
+            this.velocity.x = this.velocity.x * 50 * deltaTime;
         }
 
         this.jumpCooldown -= deltaTime;
@@ -121,21 +121,21 @@ class Entity {
 
         this.wallTimer += deltaTime;
 
-        this.position.x += this.velocity.x;
+        this.position.x += this.velocity.x * deltaTime * 150;
 
         platforms.forEach(platform => {
             const platformBounds = platform.getBounds();
             if (this.collides(this.getBounds(), platformBounds)) {
                 if (this.velocity.x > 0) {
                     this.position.x = platformBounds.left - (this.width / 4 + 0.01);
-                    this.velocity.y = this.velocity.y * 0.95;
+                    this.velocity.y = this.velocity.y * 0.8;
                     fall = wallFall;
                     if (this.jumps == 0) {
                         this.jumps = 1;
                     }
                 } if (this.velocity.x < 0) {
                     this.position.x = platformBounds.right + (this.width / 4 + 0.01);
-                    this.velocity.y = this.velocity.y * 0.95;
+                    this.velocity.y = this.velocity.y * 0.8;
                     fall = wallFall;
                     if (this.jumps == 0) {
                         this.jumps = 1;
@@ -146,7 +146,7 @@ class Entity {
         });
 
 
-        this.position.y += this.velocity.y;
+        this.position.y += this.velocity.y * deltaTime * 150;
 
         platforms.forEach(platform => {
             const platformBounds = platform.getBounds();
@@ -167,8 +167,8 @@ class Entity {
 
         if (this.position.y > 1000) {
             this.jumps = 0;
-            this.maxSpeed = 0.5
-            this.velocity.y = this.velocity.y * 0.90;
+            this.maxSpeed = 0.5;
+            this.velocity.y = this.velocity.y * 0.5;
         }
         if (this.position.y > 1100) {
             this.health = 0;
