@@ -120,7 +120,7 @@ function setup() {
 	platform8 = new Platform(world, 0, createVector(5500, 1000), 200, 50, color(255, 0, 255), false);
 	platform9 = new Platform(world, 0, createVector(6550, 1000), 1500, 50, color(255, 0, 255), false);
 	weakEnemy = new EnemyEntity(world, 2, "Weak", createVector(6550, 500), createVector(0, 0), 10, 4, 150, 150, 100, 5000, [createVector(6550, 1075), createVector(7200, 1075)]);
-	weakEnemy.sightRange = 250;
+	weakEnemy.sightRange = 350;
 	weakEnemy.setGoalOrder([
 		weakEnemy.goals.attack,
 		weakEnemy.goals.chase,

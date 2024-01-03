@@ -46,8 +46,9 @@ class PlayerEntity extends Entity {
         
         if (this.health <= 0) {
             this.world.getCamera().shake(50, 0.1);
-            location.reload();
+            //location.reload();
             this.health = this.maxHealth;
+            this.p
         }
         if (this.health < this.oldHealth) {
             this.world.getCamera().shake(10, 0.1);
