@@ -106,6 +106,22 @@ class World {
         for (let i = 0; i < this.platforms.length; i++) {
             this.platforms[i].draw();
         }
+
+        push();
+        textAlign(CENTER, BOTTOM);
+	    textSize(20);
+        strokeWeight(4);
+        fill(255);
+        text("Ah, the abyss welcomes you!\nRevel in the thrill of using the groundbreaking A and D keys\nfor a riveting horizontal journey.", 1000, 800);
+        text("Behold the majestic space and W keys—\ngatekeepers to the world of vertical enlightenment.\nPress them to ascend to new heights.", 1850, 800);
+        text("Double-jump, because clearly, one jump is for\nbeginners. Show off your gravity-defying skills!", 2300, 800);
+        text("Walls aren't just for holding up ceilings.\nGrab them, jump off them, become the\nparkour prodigy you were always meant to be.", 2800, 550);
+        text("Congratulations, you navigated a straight line.\nI'm sure Nobel Prize committees are taking note.", 3000, -50);
+        text("Meet our resident dummy –\na real Shakespearean tragedy in the making.\nLeft click to end its miserable existence, if you fancy.", 4050, 800);
+        text("Oh, and you probably shouldn't fall in the lava. It's hot.", 5300, 800);
+        text("Meet your new best friend –\nalive, kicking, and ready to spice up your life.\nBut beware, it's got a knack for the whole 'murdering you' thing.\nProceed with caution, or not. Your call.", 6550, 800)
+        pop();
+
         for (let i = 0; i < this.entities.length; i++) {
             this.entities[i].draw();
         }

@@ -3,6 +3,8 @@ class PlayerEntity extends Entity {
     constructor (world, id, name, position, velocity, mass, width, height, maxHealth, strafingForce, jumpingForce) {
         super(world, id, name, position, velocity, mass, width, height, maxHealth, strafingForce, jumpingForce);
         this.flipped = false;
+        this.hasDied = false;
+        this.drawSelf = true;
     }
 
     handleInput() {
@@ -45,10 +47,16 @@ class PlayerEntity extends Entity {
 
         
         if (this.health <= 0) {
-            this.world.getCamera().shake(50, 0.1);
-            //location.reload();
-            this.health = this.maxHealth;
-            this.p
+            if (!this.hasDied) {
+                setTimeout(() => {
+                    location.reload();
+                }, 1000);
+            }
+            this.hasDied = true;
+            this.drawSelf = false;
+            this.health = 0;
+            this.velocity.x = 0;
+            this.velocity.y = 0;
         }
         if (this.health < this.oldHealth) {
             this.world.getCamera().shake(10, 0.1);
@@ -67,12 +75,10 @@ class PlayerEntity extends Entity {
                 const attack = new BulletEntity(this.world, this.world.getEntities().length, "Attack", this.position.copy().add(-80), this.velocity.copy().add(-1000), 1, 1, 10, 10, 0, 0);
                 this.world.addEntity(attack);
             }
-            
         }
     }
 
     animation() {
-        // increment animationFrame every 0.1 seconds
         if (time > 0.15) {
             animationFrame += 1;
             time = 0;
@@ -140,6 +146,9 @@ class PlayerEntity extends Entity {
     }
 
     draw() {
+        if (!this.drawSelf) {
+            return;
+        }
         push();
         imageMode(CENTER);
         if (this.flipped) {

@@ -128,15 +128,17 @@ class Entity {
             if (this.collides(this.getBounds(), platformBounds)) {
                 if (this.velocity.x > 0) {
                     this.position.x = platformBounds.left - (this.width / 4 + 0.01);
-                    this.velocity.y = this.velocity.y * 0.8;
+                    this.velocity.y = this.velocity.y * 150 * deltaTime;
                     fall = wallFall;
+                    this.attackCooldown = 0.5;
                     if (this.jumps == 0) {
                         this.jumps = 1;
                     }
                 } if (this.velocity.x < 0) {
                     this.position.x = platformBounds.right + (this.width / 4 + 0.01);
-                    this.velocity.y = this.velocity.y * 0.8;
+                    this.velocity.y = this.velocity.y * 150 * deltaTime;
                     fall = wallFall;
+                    this.attackCooldown = 0.5;
                     if (this.jumps == 0) {
                         this.jumps = 1;
                     }
@@ -168,11 +170,12 @@ class Entity {
         if (this.position.y > 1000) {
             this.jumps = 0;
             this.maxSpeed = 0.5;
-            this.velocity.y = this.velocity.y * 0.5;
-        }
+            this.velocity.y = this.velocity.y * 0.8;
+        } 
         if (this.position.y > 1100) {
-            this.health = 0;
-            this.position.y = -1100;
+            if (time >= 0.15) {
+                this.health -= 1;
+            }
         }
         this.attackCooldown -= deltaTime;
     }

@@ -32,7 +32,7 @@ class EnemyEntity extends Entity {
         }
         
 
-        fill(100, 100, 100);
+        fill(100, 100, 100, 175);
         rect(this.position.x - this.width/6, this.position.y - 100, 50, 10);
         fill(255, 0, 0);
         rect(this.position.x - this.width/6, this.position.y - 100, this.health / this.maxHealth * 50, 10);

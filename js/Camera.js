@@ -10,7 +10,7 @@ class Camera {
 
     startFollow(followPosition) {
         this.targetX = followPosition.x - width / 2;
-        this.targetY = followPosition.y - height / 2;
+        this.targetY = followPosition.y - (height / 2) - 100;
         this.x = lerp(this.x, this.targetX, deltaTime * 10);
         this.y = lerp(this.y, this.targetY, deltaTime * 10);
         translate(-this.x, -this.y);

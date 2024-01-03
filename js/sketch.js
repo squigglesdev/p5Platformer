@@ -160,6 +160,8 @@ function setup() {
 	// Camera
 	cameraX = playerEntity.position.x - width / 2;
 	cameraY = playerEntity.position.y - height / 2;
+
+	
 }
 
 function windowResized() {
@@ -182,6 +184,10 @@ function draw() {
 	oldDeltaTime = millis()
 	world.tick();
 	time += deltaTime;
+
+	
+	
+	
 }
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
