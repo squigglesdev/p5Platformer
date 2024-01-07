@@ -42,15 +42,33 @@ let bgm;
 
 function preload() {
 	idle1 = loadImage("assets/idle1.png");
+	oldIdle1 = loadImage("assets/idle1.png");
 	idle2 = loadImage("assets/idle2.png");
+	oldIdle2 = loadImage("assets/idle2.png");
 	walk1 = loadImage("assets/walk1.png");
+	oldWalk1 = loadImage("assets/walk1.png");
 	walk2 = loadImage("assets/walk2.png");
+	oldWalk2 = loadImage("assets/walk2.png");
 	walk3 = loadImage("assets/walk3.png");
+	oldWalk3 = loadImage("assets/walk3.png");
 	walk4 = loadImage("assets/walk4.png");
+	oldWalk4 = loadImage("assets/walk4.png");
 	jump = loadImage("assets/jump.png");
 	oldJump = loadImage("assets/jump.png");
+	oldOldJump = loadImage("assets/jump.png");
 	wallJump = loadImage("assets/wallJump.png");
 	fall = loadImage("assets/fall.png");
+
+	gunIdle1 = loadImage("assets/gunIdle1.png");
+	gunIdle2 = loadImage("assets/gunIdle2.png");
+	gunWalk1 = loadImage("assets/gunWalk1.png");
+	gunWalk2 = loadImage("assets/gunWalk2.png");
+	gunWalk3 = loadImage("assets/gunWalk3.png");
+	gunWalk4 = loadImage("assets/gunWalk4.png");
+	gunJump = loadImage("assets/gunJump.png");
+	gunOldJump = loadImage("assets/gunJump.png");
+	gunFall = loadImage("assets/gunFall.png");
+
 
 	enemyIdle1 = loadImage("assets/enemyWalk1.png");
 	enemyIdle2 = loadImage("assets/enemyWalk1.png");

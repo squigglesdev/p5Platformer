@@ -67,6 +67,16 @@ class PlayerEntity extends Entity {
 
     attack() {
         if (this.attackCooldown <= 0) {
+            idle1 = gunIdle1;
+            idle2 = gunIdle2;
+            walk1 = gunWalk1;
+            walk2 = gunWalk2;
+            walk3 = gunWalk3;
+            walk4 = gunWalk4;
+            jump = gunJump;
+            oldJump = gunOldJump;
+            fall = gunFall;
+
             this.attackCooldown = 0.5;
             if (this.flipped) {
                 const attack = new BulletEntity(this.world, this.world.getEntities().length, "Attack", this.position.copy().add(80), this.velocity.copy().add(1000), 1, 1, 10, 10, 0, 0);
@@ -148,6 +158,17 @@ class PlayerEntity extends Entity {
     draw() {
         if (!this.drawSelf) {
             return;
+        }
+        if (this.attackCooldown < 0.25) {
+            idle1 = oldIdle1;
+            idle2 = oldIdle2;
+            walk1 = oldWalk1;
+            walk2 = oldWalk2;
+            walk3 = oldWalk3;
+            walk4 = oldWalk4;
+            jump = oldOldJump;
+            oldJump = oldOldJump;
+            fall = oldFall;
         }
         push();
         imageMode(CENTER);
