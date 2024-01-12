@@ -41,53 +41,53 @@ let bgHeight;
 let bgm;
 
 function preload() {
-	idle1 = loadImage("assets/idle1.png");
-	oldIdle1 = loadImage("assets/idle1.png");
-	idle2 = loadImage("assets/idle2.png");
-	oldIdle2 = loadImage("assets/idle2.png");
-	walk1 = loadImage("assets/walk1.png");
-	oldWalk1 = loadImage("assets/walk1.png");
-	walk2 = loadImage("assets/walk2.png");
-	oldWalk2 = loadImage("assets/walk2.png");
-	walk3 = loadImage("assets/walk3.png");
-	oldWalk3 = loadImage("assets/walk3.png");
-	walk4 = loadImage("assets/walk4.png");
-	oldWalk4 = loadImage("assets/walk4.png");
-	jump = loadImage("assets/jump.png");
-	oldJump = loadImage("assets/jump.png");
-	oldOldJump = loadImage("assets/jump.png");
-	wallJump = loadImage("assets/wallJump.png");
-	fall = loadImage("assets/fall.png");
+	idle1 = loadImage("assets/img/idle1.png");
+	oldIdle1 = loadImage("assets/img/idle1.png");
+	idle2 = loadImage("assets/img/idle2.png");
+	oldIdle2 = loadImage("assets/img/idle2.png");
+	walk1 = loadImage("assets/img/walk1.png");
+	oldWalk1 = loadImage("assets/img/walk1.png");
+	walk2 = loadImage("assets/img/walk2.png");
+	oldWalk2 = loadImage("assets/img/walk2.png");
+	walk3 = loadImage("assets/img/walk3.png");
+	oldWalk3 = loadImage("assets/img/walk3.png");
+	walk4 = loadImage("assets/img/walk4.png");
+	oldWalk4 = loadImage("assets/img/walk4.png");
+	jump = loadImage("assets/img/jump.png");
+	oldJump = loadImage("assets/img/jump.png");
+	oldOldJump = loadImage("assets/img/jump.png");
+	wallJump = loadImage("assets/img/wallJump.png");
+	fall = loadImage("assets/img/fall.png");
 
-	gunIdle1 = loadImage("assets/gunIdle1.png");
-	gunIdle2 = loadImage("assets/gunIdle2.png");
-	gunWalk1 = loadImage("assets/gunWalk1.png");
-	gunWalk2 = loadImage("assets/gunWalk2.png");
-	gunWalk3 = loadImage("assets/gunWalk3.png");
-	gunWalk4 = loadImage("assets/gunWalk4.png");
-	gunJump = loadImage("assets/gunJump.png");
-	gunOldJump = loadImage("assets/gunJump.png");
-	gunFall = loadImage("assets/gunFall.png");
+	gunIdle1 = loadImage("assets/img/gunIdle1.png");
+	gunIdle2 = loadImage("assets/img/gunIdle2.png");
+	gunWalk1 = loadImage("assets/img/gunWalk1.png");
+	gunWalk2 = loadImage("assets/img/gunWalk2.png");
+	gunWalk3 = loadImage("assets/img/gunWalk3.png");
+	gunWalk4 = loadImage("assets/img/gunWalk4.png");
+	gunJump = loadImage("assets/img/gunJump.png");
+	gunOldJump = loadImage("assets/img/gunJump.png");
+	gunFall = loadImage("assets/img/gunFall.png");
 
 
-	enemyIdle1 = loadImage("assets/enemyWalk1.png");
-	enemyIdle2 = loadImage("assets/enemyWalk1.png");
-	enemyWalk1 = loadImage("assets/enemyWalk1.png");
-	enemyWalk2 = loadImage("assets/enemyWalk1.png");
-	enemyWalk3 = loadImage("assets/enemyWalk2.png");
-	enemyWalk4 = loadImage("assets/enemyWalk2.png");
-	enemyJump = loadImage("assets/enemyWalk1.png");
-	enemyOldJump = loadImage("assets/enemyWalk1.png");
-	enemyWallJump = loadImage("assets/enemyWalk1.png");
-	enemyFall = loadImage("assets/enemyWalk1.png");
+	enemyIdle1 = loadImage("assets/img/enemyWalk1.png");
+	enemyIdle2 = loadImage("assets/img/enemyWalk1.png");
+	enemyWalk1 = loadImage("assets/img/enemyWalk1.png");
+	enemyWalk2 = loadImage("assets/img/enemyWalk1.png");
+	enemyWalk3 = loadImage("assets/img/enemyWalk2.png");
+	enemyWalk4 = loadImage("assets/img/enemyWalk2.png");
+	enemyJump = loadImage("assets/img/enemyWalk1.png");
+	enemyOldJump = loadImage("assets/img/enemyWalk1.png");
+	enemyWallJump = loadImage("assets/img/enemyWalk1.png");
+	enemyFall = loadImage("assets/img/enemyWalk1.png");
 
-	oldFall = loadImage("assets/fall.png");
-	wallFall = loadImage("assets/wallFall.png");
+	oldFall = loadImage("assets/img/fall.png");
+	wallFall = loadImage("assets/img/wallFall.png");
 
-	enemyOldFall = loadImage("assets/enemyWalk1.png");
-	enemyWallFall = loadImage("assets/enemyWalk1.png");
+	enemyOldFall = loadImage("assets/img/enemyWalk1.png");
+	enemyWallFall = loadImage("assets/img/enemyWalk1.png");
 
-	bg = loadImage("assets/bg.png", function(img) {
+	bg = loadImage("assets/img/bg.png", function(img) {
         bgWidth = img.width;
         bgHeight = img.height;
     });
