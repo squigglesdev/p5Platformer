@@ -91,7 +91,6 @@ function preload() {
         bgWidth = img.width;
         bgHeight = img.height;
     });
-
 }
 
 function setup() {
