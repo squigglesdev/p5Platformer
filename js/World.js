@@ -94,7 +94,6 @@ class World {
                 image(bg, x - this.camera.x * 0.5, y - this.camera.y * 0.5, bgWidth, bgHeight);
             }
         }
-
         strokeWeight(2);
         stroke(31);
     }
